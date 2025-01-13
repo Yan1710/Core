@@ -34,6 +34,7 @@ fun menuIcon(){
             Column(modifier = Modifier.align(Alignment.Center),horizontalAlignment = Alignment.CenterHorizontally) {
              Image(painter = painterResource(id = R.drawable.menu), contentDescription = "")
             }
+
         }
 
     }
