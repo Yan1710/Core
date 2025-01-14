@@ -143,7 +143,7 @@ fun ContentLoginView(viewModel: LoginViewModel, it: PaddingValues,
         Spacer(modifier = Modifier.padding(10.dp))
         Button(onClick = {
             coroutineScope.launch {
-                if (viewModel.Login(email, password)) navController.navigate("main")
+               if (viewModel.login(email, password)) navController.navigate("main")
             }
         }) {
             Text(text = "Iniciar Sesion")
