@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.restaurante.viewmodel.LincenseVM
+import com.example.restaurante.viewmodel.LoginViewModel
 import com.example.restaurante.viewmodel.PedidosViewModel
 import com.example.restaurante.views.AddView
 import com.example.restaurante.views.HomeView
@@ -19,7 +20,7 @@ import com.example.restaurante.views.Splash
 
 @RequiresApi(Build.VERSION_CODES.P)
 @Composable
-fun NavManager(viewModel: PedidosViewModel,viewModel1: LincenseVM){
+fun NavManager(viewModel: PedidosViewModel,viewModel1: LincenseVM,loginViewModel: LoginViewModel){
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "Splash"){
         composable("Home"){
@@ -35,7 +36,7 @@ fun NavManager(viewModel: PedidosViewModel,viewModel1: LincenseVM){
             Licenses(viewModel1, navController)
         }
         composable("login"){
-            LoginView(navController = navController)
+            LoginView(loginViewModel,navController = navController)
         }
 
     }

@@ -1,6 +1,8 @@
 package com.example.restaurante.views
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -23,9 +25,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
@@ -37,29 +41,49 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.restaurante.R
 import com.example.restaurante.components.menuIcon
+import com.example.restaurante.ui.theme.Color1
 import com.example.restaurante.ui.theme.Pin
 import com.example.restaurante.ui.theme.color2A
 import com.example.restaurante.ui.theme.color4
+import com.example.restaurante.viewmodel.LoginViewModel
+import kotlinx.coroutines.launch
 
 @Composable
-fun LoginView(/*viewModel: LoginViewModel*/ navController: NavController) {
+fun LoginView(viewModel: LoginViewModel, navController: NavController) {
     Scaffold(
         topBar = {
             Row(modifier = Modifier.padding(37.dp)) {
-                Text(text = "Version 0001")
+                Text(text = "Version 0001", color = Color.Black)
                 Spacer(modifier = Modifier.padding(8.dp))
-                Text(text = "Build 220424")
+                Text(text = "Build 220424",color = Color.Black)
             }
+
         },
-        containerColor = Pin,
+        containerColor = Color1,
         contentColor = color4
-    ) {
-        ContentLoginView(it, navController)
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color(0xFFFF9800), // Naranja más claro
+                            Color(0xFFFF7700), // Naranja más claro
+                            Color(0xFFFF5722)  // Naranja más oscuro
+                        )
+                    )
+                )
+                .padding(paddingValues)
+        ) {
+            ContentLoginView(viewModel, paddingValues, navController)
+        }
+
     }
 }
 
 @Composable
-fun ContentLoginView(/*viewModel: LoginViewModel,*/ it: PaddingValues,
+fun ContentLoginView(viewModel: LoginViewModel, it: PaddingValues,
                      navController: NavController)
 {
     Column(
@@ -71,11 +95,10 @@ fun ContentLoginView(/*viewModel: LoginViewModel,*/ it: PaddingValues,
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var viewPassword by remember { mutableStateOf(true) }
+        val coroutineScope = rememberCoroutineScope()
 
-        /*cardSplash()
-        ImageCommer()*/
+
         menuIcon()
-        // Spacer(modifier = Modifier.padding(10.dp))
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
@@ -118,16 +141,27 @@ fun ContentLoginView(/*viewModel: LoginViewModel,*/ it: PaddingValues,
             shape = RoundedCornerShape(30.dp)
         )
         Spacer(modifier = Modifier.padding(10.dp))
-        Button(onClick = { navController.navigate("main") }) {
+        Button(onClick = {
+            coroutineScope.launch {
+                if (viewModel.Login(email, password)) navController.navigate("main")
+            }
+        }) {
             Text(text = "Iniciar Sesion")
         }
         Spacer(modifier = Modifier.padding(10.dp))
-        IconButton(onClick = { /*TODO*/ },modifier = Modifier
-            .height(70.dp)
-            .width(70.dp)) {
-            Icon(imageVector = ImageVector.vectorResource(R.drawable.fingerprint), contentDescription = "", modifier = Modifier
+        IconButton(
+            onClick = { /*TODO*/ }, modifier = Modifier
                 .height(70.dp)
-                .width(70.dp),tint = Color.Black)
+                .width(70.dp)
+        ) {
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.fingerprint),
+                contentDescription = "",
+                modifier = Modifier
+                    .height(70.dp)
+                    .width(70.dp),
+                tint = Color.Black
+            )
         }
         Spacer(modifier = Modifier.padding(3.dp))
         Text(text = "Inicia sesion mendiante huella")

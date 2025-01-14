@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.restaurante.navigation.NavManager
 import com.example.restaurante.ui.theme.RestauranteTheme
 import com.example.restaurante.viewmodel.LincenseVM
+import com.example.restaurante.viewmodel.LoginViewModel
 import com.example.restaurante.viewmodel.PedidosViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,6 +30,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val viewModel: PedidosViewModel by viewModels()
         val viewModel1: LincenseVM by viewModels()
+        val loginViewModel: LoginViewModel by viewModels()
         enableEdgeToEdge()
         setContent {
             RestauranteTheme {
@@ -36,7 +38,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavManager(viewModel,viewModel1)
+                    NavManager(viewModel,viewModel1,loginViewModel)
                 }
             }
         }
