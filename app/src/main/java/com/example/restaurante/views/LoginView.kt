@@ -37,9 +37,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.restaurante.R
+import com.example.restaurante.components.WelcomeBackCard
 import com.example.restaurante.components.menuIcon
 import com.example.restaurante.ui.theme.Color1
 import com.example.restaurante.ui.theme.Pin
@@ -62,25 +64,12 @@ fun LoginView(viewModel: LoginViewModel, navController: NavController) {
         containerColor = Color1,
         contentColor = color4
     ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            Color(0xFFFF9800), // Naranja más claro
-                            Color(0xFFFF7700), // Naranja más claro
-                            Color(0xFFFF5722)  // Naranja más oscuro
-                        )
-                    )
-                )
-                .padding(paddingValues)
-        ) {
+            WelcomeBackCard()
             ContentLoginView(viewModel, paddingValues, navController)
         }
 
     }
-}
+
 
 @Composable
 fun ContentLoginView(viewModel: LoginViewModel, it: PaddingValues,
@@ -143,7 +132,7 @@ fun ContentLoginView(viewModel: LoginViewModel, it: PaddingValues,
         Spacer(modifier = Modifier.padding(10.dp))
         Button(onClick = {
             coroutineScope.launch {
-               if (viewModel.login(email, password)) navController.navigate("main")
+               if (viewModel.login(email, password)) navController.navigate("Home")
             }
         }) {
             Text(text = "Iniciar Sesion")
