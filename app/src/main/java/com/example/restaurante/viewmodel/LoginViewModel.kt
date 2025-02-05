@@ -32,11 +32,23 @@ class LoginViewModel @Inject constructor(private val repository: LoginRepository
             }
         }
     }
+
     fun saveToken(token:String){
         val prefs: SharedPreferences = getApplication<Application>().getSharedPreferences("my_prefs", MODE_PRIVATE)
         val editor = prefs.edit()
         editor.putString("jwt_token", token)
         editor.apply()
     }
+
+    suspend fun loginForFingerprint(email: String, password: String): Boolean {
+
+        val prefs: SharedPreferences = getApplication<Application>().getSharedPreferences("my_prefs", MODE_PRIVATE)
+
+        if(prefs.contains(email)){
+
+        }
+        return true
+    }
+
 }
 
